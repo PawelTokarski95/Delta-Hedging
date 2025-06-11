@@ -61,7 +61,7 @@ In most cases, the portfolio’s delta was dropping significantly, meaning the p
 
 ![delta hedge  5](https://github.com/user-attachments/assets/e51f97df-ed28-4c67-9311-e517073a4060)
 
-![delta hedge  4](https://github.com/user-attachments/assets/fd64d33a-14bb-49a8-9441-6e763335aa9a)
+![delta hedge  4](https://github.com/user-attachments/assets/7330e78d-107e-4f6e-a75e-f4e19bd4950b)
 
 ![delta hedge  3](https://github.com/user-attachments/assets/2247aee5-07de-4448-8dc3-65c15526a22f)
 
