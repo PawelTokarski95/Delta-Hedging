@@ -1,5 +1,7 @@
 # Delta-Hedging
 
+- **Language**: Python
+
 1. What is Delta Hedging?
    
 Delta hedging is a method used to protect an investment portfolio. It works by making opposite trades in two different financial products: options and the underlying stock (the stock the option is based on). There are two main types of options:
@@ -19,6 +21,9 @@ This model makes a few simple assumptions about the market, like:
 -No risk-free profits (no arbitrage)
 -Stock returns follow a normal distribution.
 Even though the model is not perfect, many banks and traders use it as a first step to estimate option prices.
+
+![448393374-7ed80826-1a20-4657-9f12-1139a5090c19](https://github.com/user-attachments/assets/5b3cfbed-c577-4d4e-9f35-4b3c74aa5a82)
+
 
 5. What I Did – Delta Hedging
 
