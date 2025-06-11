@@ -1,0 +1,134 @@
+import yfinance as yf
+import pandas as pd
+import numpy as np
+from scipy.stats import norm
+from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
+
+class Black_Scholes:
+    def __init__(self, S, K, sigma, r, t):
+        self.S = S
+        self.K = K
+        self.r = r
+        self.t = t
+        self.sigma = sigma
+
+    def call_price(self):
+        d1 = (np.log(self.S / self.K) + (self.r + 0.5 * self.sigma ** 2) * self.t) / (self.sigma * np.sqrt(self.t))
+        d2 = d1 - self.sigma * np.sqrt(self.t)
+        return self.S * norm.cdf(d1) - self.K * np.exp(-self.r * self.t) * norm.cdf(d2)
+
+    def delta_call(self):
+        d1 = (np.log(self.S / self.K) + (self.r + 0.5 * self.sigma ** 2) * self.t) / (self.sigma * np.sqrt(self.t))
+        return norm.cdf(d1)
+
+T_days = 100
+r = 0.0447
+t = 252
+tickers = ['AAPL', 'XOM', 'NRG', 'MSFT', 'FUBO', 'AMZN', 'GOOGL']
+
+data_dict = {}
+for ticker in tickers:
+    df = yf.download(ticker, start=datetime.today() - timedelta(days=2*T_days), end=datetime.today())
+    df = df.reset_index()
+    data_dict[ticker] = df['Close'].values[-T_days:]
+
+all_results = []
+units = 1000
+
+for ticker in tickers:
+    prices = data_dict[ticker]
+    K = prices[0]
+    cash = 0
+    shares = 0
+    previous_delta = 0
+
+    option_prices = []
+    portfolio_values = []
+    deltas = []
+    hedge_shares = []
+
+    for i in range(len(prices)):
+        S = prices[i]
+        T = (T_days - i) / t
+
+        if i > 1:
+            log_returns = np.log(prices[1:i+1] / prices[:i])
+            sigma = np.std(log_returns) * np.sqrt(t)
+        else:
+            sigma = 0.2
+
+        bs = Black_Scholes(S, K, sigma, r, T)
+        option_price = bs.call_price()
+        delta = bs.delta_call()
+
+        if i == 0:
+            shares = -delta * units
+            cash = -option_price * units - shares * S
+        else:
+            new_shares = -delta * units
+            delta_change = new_shares - shares
+            cash = cash - delta_change * S
+            shares = shares + delta_change
+        
+        previous_delta = delta
+        portfolio_value = option_price * units + shares * S + cash
+        option_prices.append(option_price)
+        deltas.append(delta)
+        hedge_shares.append(shares)
+        portfolio_values.append(portfolio_value)
+
+    df_result = pd.DataFrame({
+        'Day': range(T_days),
+        'Ticker': ticker,
+        'Option_Price': option_prices,
+        'Delta': deltas,
+        'Hedge_Shares': hedge_shares,
+        'Portfolio_Value': portfolio_values
+    })
+
+    all_results.append(df_result)
+
+results_all = pd.concat(all_results, ignore_index=True)
+
+
+
+for ticker in tickers:
+    df_ticker = results_all[results_all['Ticker'] == ticker]
+
+    fig, ax1 = plt.subplots(figsize=(14, 7))
+
+    ax1.plot(df_ticker['Day'], df_ticker['Portfolio_Value'], label='Hedged Portfolio Value', color='blue')
+    ax1.plot(df_ticker['Day'], df_ticker['Option_Price'] * units, label='Unhedged Option Value (x1000)', color='green', linestyle='dotted')
+    ax1.set_xlabel('Day')
+    ax1.set_ylabel('Value (USD)', color='black')
+    ax1.tick_params(axis='y', labelcolor='black')
+
+    ax2 = ax1.twinx()
+    ax2.plot(df_ticker['Day'], df_ticker['Delta'], label='Delta', color='red', linestyle='--')
+    ax2.set_ylabel('Delta', color='red')
+    ax2.tick_params(axis='y', labelcolor='red')
+
+    ax3 = ax1.twinx()
+    ax3.spines['right'].set_position(('outward', 60))
+    hedge_effect = df_ticker['Portfolio_Value'] - df_ticker['Option_Price'] * units
+    ax3.plot(df_ticker['Day'], hedge_effect, label='Hedge Gain/Loss', color='purple', linestyle='dashdot')
+    ax3.set_ylabel('Hedge Effect (USD)', color='purple')
+    ax3.tick_params(axis='y', labelcolor='purple')
+
+    lines_1, labels_1 = ax1.get_legend_handles_labels()
+    lines_2, labels_2 = ax2.get_legend_handles_labels()
+    lines_3, labels_3 = ax3.get_legend_handles_labels()
+    ax1.legend(lines_1 + lines_2 + lines_3, labels_1 + labels_2 + labels_3, loc='upper left')
+
+    plt.title(f'Delta Hedging vs Unhedged for {ticker}')
+    plt.grid(True)
+    plt.show()
+
+
+
+
+
+
+
+
