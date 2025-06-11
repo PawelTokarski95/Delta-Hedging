@@ -42,7 +42,7 @@ That’s how delta hedging works. It protects you from small changes in stock pr
 
 4. Results of the Strategy
 The results showed that delta hedging worked well.
-In most cases, the portfolio’s delta became close to zero, meaning the price risk was much lower.
+In most cases, the portfolio’s delta was dropping significantly, meaning the price risk was much lower.
 
 
 
