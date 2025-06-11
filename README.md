@@ -1,6 +1,7 @@
 # Delta-Hedging
 
 1. What is Delta Hedging?
+   
 Delta hedging is a method used to protect an investment portfolio. It works by making opposite trades in two different financial products: options and the underlying stock (the stock the option is based on). There are two main types of options:
 Call option – gives the right to buy the stock
 Put option – gives the right to sell the stock
@@ -10,7 +11,8 @@ Call option becomes more valuable
 Put option becomes less valuable
 But the change is not 1-to-1. The option price moves slower or faster than the stock, depending on the situation. To hedge (protect) your position, you need to buy or sell shares to cancel out this risk.
 
-2. How I Priced the Options
+3. How I Priced the Options
+   
 I calculated the prices of call options for 7 different stocks using the Black-Scholes model.
 This model makes a few simple assumptions about the market, like:
 -No transaction costs
@@ -18,7 +20,8 @@ This model makes a few simple assumptions about the market, like:
 -Stock returns follow a normal distribution.
 Even though the model is not perfect, many banks and traders use it as a first step to estimate option prices.
 
-3. What I Did – Delta Hedging
+5. What I Did – Delta Hedging
+
 After calculating the option prices and deltas, I used delta hedging:
 I took an opposite position in the stock to reduce the risk from the option.
 Example:
@@ -27,6 +30,7 @@ This made the portfolio delta-neutral – meaning it’s protected from small pr
 
 
 Simple Example – For Beginners
+
 Let’s say you have 1 call option on Apple stock.
 Apple stock price = $100
 Option delta = 0.5
@@ -41,6 +45,7 @@ That’s how delta hedging works. It protects you from small changes in stock pr
 
 
 4. Results of the Strategy
+   
 The results showed that delta hedging worked well.
 In most cases, the portfolio’s delta was dropping significantly, meaning the price risk was much lower.
 
