@@ -3,12 +3,12 @@
 1. What is Delta Hedging?
    
 Delta hedging is a method used to protect an investment portfolio. It works by making opposite trades in two different financial products: options and the underlying stock (the stock the option is based on). There are two main types of options:
-Call option – gives the right to buy the stock
-Put option – gives the right to sell the stock
-The delta tells us how much the option price will change if the stock price changes. For call options, delta is between 0 and 1 For put options, delta is between –1 and 0
+Call option – gives the right to buy the stock.
+Put option – gives the right to sell the stock.
+The delta tells us how much the option price will change if the stock price changes. For call options, delta is between 0 and 1 For put options, delta is between –1 and .
 When the price of the stock goes up:
-Call option becomes more valuable
-Put option becomes less valuable
+Call option becomes more valuable,
+Put option becomes less valuable.
 But the change is not 1-to-1. The option price moves slower or faster than the stock, depending on the situation. To hedge (protect) your position, you need to buy or sell shares to cancel out this risk.
 
 3. How I Priced the Options
