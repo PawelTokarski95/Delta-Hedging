@@ -13,7 +13,7 @@ Call option becomes more valuable,
 Put option becomes less valuable.
 But the change is not identical. The option price moves slower or faster than the stock, depending on the situation. To hedge your position, you need to buy or sell shares to cancel this risk.
 
-3. Option pricing
+2. Option pricing
    
 I calculated the prices of call options for 7 different stocks using the Black-Scholes model.
 This model makes a few simple assumptions about the market:
@@ -25,7 +25,7 @@ Although the model is not perfect, many banks and traders use it as a first step
 ![448393374-7ed80826-1a20-4657-9f12-1139a5090c19](https://github.com/user-attachments/assets/5b3cfbed-c577-4d4e-9f35-4b3c74aa5a82)
 
 
-5. Delta Hedging
+3. Delta Hedging
 
 After calculating the option prices and deltas, I used delta hedging:
 I took an opposite position in the stock to reduce the risk from the option.
